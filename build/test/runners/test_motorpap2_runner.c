@@ -13,6 +13,7 @@ char* GlobalOrderError;
 extern void setUp(void);
 extern void tearDown(void);
 extern void test_salidasBobina(void);
+extern void test_ActivoUnaSecuenciaPaso(void);
 
 
 /*=======Mock Management=====*/
@@ -82,7 +83,8 @@ static void run_test(UnityTestFunction func, const char* name, int line_num)
 int main(void)
 {
   UnityBegin("test_motorpap2.c");
-  run_test(test_salidasBobina, "test_salidasBobina", 27);
+  run_test(test_salidasBobina, "test_salidasBobina", 30);
+  run_test(test_ActivoUnaSecuenciaPaso, "test_ActivoUnaSecuenciaPaso", 41);
 
   CMock_Guts_MemFreeFinal();
   return UnityEnd();

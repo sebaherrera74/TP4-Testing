@@ -4,15 +4,19 @@
   :file: test_motorpap2.c
 :successes:
 - :test: test_salidasBobina
-  :line: 27
+  :line: 30
+  :message: ''
+  :unity_test_time: 0
+- :test: test_ActivoUnaSecuenciaPaso
+  :line: 41
   :message: ''
   :unity_test_time: 0
 :failures: []
 :ignores: []
 :counts:
-  :total: 1
-  :passed: 1
+  :total: 2
+  :passed: 2
   :failed: 0
   :ignored: 0
 :stdout: []
-:time: 0.0013404359997366555
+:time: 0.001447775999622536

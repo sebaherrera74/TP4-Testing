@@ -8,8 +8,6 @@
 
 
 
-
-
 void setUp(void){
 
     GPIO1=1;
@@ -32,26 +30,42 @@ void tearDown(void){
 
 
 
+
+
+
+
+
+
 void test_salidasBobina(void){
 
     uint16_t cantpasos=1024;
 
 
 
-    gpioConfig_CMockExpect(30, GPIO1, 1);
+    gpioConfig_CMockExpect(33, GPIO1, 1);
 
- gpioConfig_CMockExpect(31, GPIO2, 1);
+ gpioConfig_CMockExpect(34, GPIO2, 1);
 
- gpioConfig_CMockExpect(32, GPIO3, 1);
+ gpioConfig_CMockExpect(35, GPIO3, 1);
 
- gpioConfig_CMockExpect(33, GPIO4, 1);
+ gpioConfig_CMockExpect(36, GPIO4, 1);
 
-
-
-    inicializacionMotor (cantpasos);
-
-
-
-
+    inicializacionMotor(cantpasos);
 
 }
+
+
+
+
+
+ void test_ActivoUnaSecuenciaPaso(void){
+
+
+
+     paso_1_Expected;
+
+
+
+
+
+ }
