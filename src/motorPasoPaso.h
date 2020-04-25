@@ -11,5 +11,6 @@ uint8_t GPIO3;
 uint8_t GPIO4;
 
 void inicializacionMotor (uint16_t );
-void secuenciaMotorCW(uint8_t sentidoGiro);
+void secuenciaCW(uint8_t velocidad,uint16_t cantPasos);
+void secuenciaCCW(uint8_t velocidad,uint16_t cantPasos);
 void paso_1(void);

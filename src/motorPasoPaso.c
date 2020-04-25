@@ -17,7 +17,12 @@
 //  paso 3         1         0         1         1 
 //  paso 4         0         1         1         1
 
-
+uint8_t secuenciaPasos[4][4]={
+		{1,1,1,0},
+		{1,1,0,1},
+		{1,0,1,1},
+		{0,1,1,1}
+};
 void inicializacionMotor (uint16_t pasos){
       uint16_t cantidadPasos = pasos;
 
@@ -32,8 +37,32 @@ void inicializacionMotor (uint16_t pasos){
         gpioConfig(GPIO4,GPIO_OUTPUT);
 }
 
-void secuenciaMotorCW(uint8_t sentidoGiro){
+void secuenciaCW(uint8_t velocidad,uint16_t cantPasos){
+    uint8_t aux=0;
+    uint16_t i;
 
-     paso_1();
+    for (i=0;i<cantPasos;i++){
 
+   	aux=(i+4)%4;
+		gpioWrite(GPIO1,secuenciaPasos[aux][0]);
+		gpioWrite(GPIO2,secuenciaPasos[aux][1]);
+		gpioWrite(GPIO3,secuenciaPasos[aux][2]);
+		gpioWrite(GPIO4,secuenciaPasos[aux][3]);
+	  delay(velocidad);
+	}
+}
+
+void secuenciaCCW(uint8_t velocidad,uint16_t cantPasos){
+    uint8_t aux=0;
+    uint16_t i;
+
+    for (i=0;i<cantPasos;i++){
+    	aux=(i+4)%4;
+
+	   gpioWrite(GPIO1,secuenciaPasos[aux][3]);
+	   gpioWrite(GPIO2,secuenciaPasos[aux][2]);
+	   gpioWrite(GPIO3,secuenciaPasos[aux][1]);
+	   gpioWrite(GPIO4,secuenciaPasos[aux][0]);
+     delay(velocidad);
+	 }
 }

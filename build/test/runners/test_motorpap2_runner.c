@@ -14,6 +14,9 @@ extern void setUp(void);
 extern void tearDown(void);
 extern void test_salidasBobina(void);
 extern void test_ActivoUnaSecuenciaPaso(void);
+extern void test_ActivoUnaSecuenciaPaso_2(void);
+extern void test_ActivoUnaSecuenciaPaso_3(void);
+extern void test_ActivoUnaSecuenciaPaso_4(void);
 
 
 /*=======Mock Management=====*/
@@ -85,6 +88,9 @@ int main(void)
   UnityBegin("test_motorpap2.c");
   run_test(test_salidasBobina, "test_salidasBobina", 30);
   run_test(test_ActivoUnaSecuenciaPaso, "test_ActivoUnaSecuenciaPaso", 41);
+  run_test(test_ActivoUnaSecuenciaPaso_2, "test_ActivoUnaSecuenciaPaso_2", 56);
+  run_test(test_ActivoUnaSecuenciaPaso_3, "test_ActivoUnaSecuenciaPaso_3", 89);
+  run_test(test_ActivoUnaSecuenciaPaso_4, "test_ActivoUnaSecuenciaPaso_4", 112);
 
   CMock_Guts_MemFreeFinal();
   return UnityEnd();

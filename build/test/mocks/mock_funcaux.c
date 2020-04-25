@@ -7,6 +7,7 @@
 
 static const char* CMockString_cmock_arg1 = "cmock_arg1";
 static const char* CMockString_cmock_arg2 = "cmock_arg2";
+static const char* CMockString_delay = "delay";
 static const char* CMockString_estadologicoSalida = "estadologicoSalida";
 static const char* CMockString_gpio = "gpio";
 static const char* CMockString_gpioConfig = "gpioConfig";
@@ -14,6 +15,7 @@ static const char* CMockString_gpioWrite = "gpioWrite";
 static const char* CMockString_paso_1 = "paso_1";
 static const char* CMockString_paso_1_Expected = "paso_1_Expected";
 static const char* CMockString_paso_2_Expected = "paso_2_Expected";
+static const char* CMockString_veloc = "veloc";
 
 typedef struct _CMOCK_gpioConfig_CALL_INSTANCE
 {
@@ -36,6 +38,15 @@ typedef struct _CMOCK_gpioWrite_CALL_INSTANCE
   int IgnoreArg_estadologicoSalida;
 
 } CMOCK_gpioWrite_CALL_INSTANCE;
+
+typedef struct _CMOCK_delay_CALL_INSTANCE
+{
+  UNITY_LINE_TYPE LineNumber;
+  int CallOrder;
+  uint8_t Expected_veloc;
+  int IgnoreArg_veloc;
+
+} CMOCK_delay_CALL_INSTANCE;
 
 typedef struct _CMOCK_paso_1_CALL_INSTANCE
 {
@@ -70,6 +81,11 @@ static struct mock_funcauxInstance
   CMOCK_gpioWrite_CALLBACK gpioWrite_CallbackFunctionPointer;
   int gpioWrite_CallbackCalls;
   CMOCK_MEM_INDEX_TYPE gpioWrite_CallInstance;
+  int delay_IgnoreBool;
+  int delay_CallbackBool;
+  CMOCK_delay_CALLBACK delay_CallbackFunctionPointer;
+  int delay_CallbackCalls;
+  CMOCK_MEM_INDEX_TYPE delay_CallInstance;
   int paso_1_IgnoreBool;
   int paso_1_CallbackBool;
   CMOCK_paso_1_CALLBACK paso_1_CallbackFunctionPointer;
@@ -110,6 +126,14 @@ void mock_funcaux_Verify(void)
   UNITY_TEST_ASSERT(CMOCK_GUTS_NONE == call_instance, cmock_line, CMockStringCalledLess);
   UNITY_CLR_DETAILS();
   if (Mock.gpioWrite_CallbackFunctionPointer != NULL)
+    call_instance = CMOCK_GUTS_NONE;
+  call_instance = Mock.delay_CallInstance;
+  if (Mock.delay_IgnoreBool)
+    call_instance = CMOCK_GUTS_NONE;
+  UNITY_SET_DETAIL(CMockString_delay);
+  UNITY_TEST_ASSERT(CMOCK_GUTS_NONE == call_instance, cmock_line, CMockStringCalledLess);
+  UNITY_CLR_DETAILS();
+  if (Mock.delay_CallbackFunctionPointer != NULL)
     call_instance = CMOCK_GUTS_NONE;
   call_instance = Mock.paso_1_CallInstance;
   if (Mock.paso_1_IgnoreBool)
@@ -342,6 +366,89 @@ void gpioWrite_CMockIgnoreArg_estadologicoSalida(UNITY_LINE_TYPE cmock_line)
   CMOCK_gpioWrite_CALL_INSTANCE* cmock_call_instance = (CMOCK_gpioWrite_CALL_INSTANCE*)CMock_Guts_GetAddressFor(CMock_Guts_MemEndOfChain(Mock.gpioWrite_CallInstance));
   UNITY_TEST_ASSERT_NOT_NULL(cmock_call_instance, cmock_line, CMockStringIgnPreExp);
   cmock_call_instance->IgnoreArg_estadologicoSalida = 1;
+}
+
+void delay(uint8_t veloc)
+{
+  UNITY_LINE_TYPE cmock_line = TEST_LINE_NUM;
+  CMOCK_delay_CALL_INSTANCE* cmock_call_instance;
+  UNITY_SET_DETAIL(CMockString_delay);
+  cmock_call_instance = (CMOCK_delay_CALL_INSTANCE*)CMock_Guts_GetAddressFor(Mock.delay_CallInstance);
+  Mock.delay_CallInstance = CMock_Guts_MemNext(Mock.delay_CallInstance);
+  if (Mock.delay_IgnoreBool)
+  {
+    UNITY_CLR_DETAILS();
+    return;
+  }
+  if (!Mock.delay_CallbackBool &&
+      Mock.delay_CallbackFunctionPointer != NULL)
+  {
+    Mock.delay_CallbackFunctionPointer(veloc, Mock.delay_CallbackCalls++);
+    UNITY_CLR_DETAILS();
+    return;
+  }
+  UNITY_TEST_ASSERT_NOT_NULL(cmock_call_instance, cmock_line, CMockStringCalledMore);
+  cmock_line = cmock_call_instance->LineNumber;
+  if (cmock_call_instance->CallOrder > ++GlobalVerifyOrder)
+    UNITY_TEST_FAIL(cmock_line, CMockStringCalledEarly);
+  if (cmock_call_instance->CallOrder < GlobalVerifyOrder)
+    UNITY_TEST_FAIL(cmock_line, CMockStringCalledLate);
+  if (!cmock_call_instance->IgnoreArg_veloc)
+  {
+    UNITY_SET_DETAILS(CMockString_delay,CMockString_veloc);
+    UNITY_TEST_ASSERT_EQUAL_HEX8(cmock_call_instance->Expected_veloc, veloc, cmock_line, CMockStringMismatch);
+  }
+  if (Mock.delay_CallbackFunctionPointer != NULL)
+  {
+    Mock.delay_CallbackFunctionPointer(veloc, Mock.delay_CallbackCalls++);
+  }
+  UNITY_CLR_DETAILS();
+}
+
+void CMockExpectParameters_delay(CMOCK_delay_CALL_INSTANCE* cmock_call_instance, uint8_t veloc);
+void CMockExpectParameters_delay(CMOCK_delay_CALL_INSTANCE* cmock_call_instance, uint8_t veloc)
+{
+  cmock_call_instance->Expected_veloc = veloc;
+  cmock_call_instance->IgnoreArg_veloc = 0;
+}
+
+void delay_CMockIgnore(void)
+{
+  Mock.delay_IgnoreBool = (int)1;
+}
+
+void delay_CMockExpect(UNITY_LINE_TYPE cmock_line, uint8_t veloc)
+{
+  CMOCK_MEM_INDEX_TYPE cmock_guts_index = CMock_Guts_MemNew(sizeof(CMOCK_delay_CALL_INSTANCE));
+  CMOCK_delay_CALL_INSTANCE* cmock_call_instance = (CMOCK_delay_CALL_INSTANCE*)CMock_Guts_GetAddressFor(cmock_guts_index);
+  UNITY_TEST_ASSERT_NOT_NULL(cmock_call_instance, cmock_line, CMockStringOutOfMemory);
+  memset(cmock_call_instance, 0, sizeof(*cmock_call_instance));
+  Mock.delay_CallInstance = CMock_Guts_MemChain(Mock.delay_CallInstance, cmock_guts_index);
+  Mock.delay_IgnoreBool = (int)0;
+  cmock_call_instance->LineNumber = cmock_line;
+  cmock_call_instance->CallOrder = ++GlobalExpectCount;
+  CMockExpectParameters_delay(cmock_call_instance, veloc);
+}
+
+void delay_AddCallback(CMOCK_delay_CALLBACK Callback)
+{
+  Mock.delay_IgnoreBool = (int)0;
+  Mock.delay_CallbackBool = (int)1;
+  Mock.delay_CallbackFunctionPointer = Callback;
+}
+
+void delay_Stub(CMOCK_delay_CALLBACK Callback)
+{
+  Mock.delay_IgnoreBool = (int)0;
+  Mock.delay_CallbackBool = (int)0;
+  Mock.delay_CallbackFunctionPointer = Callback;
+}
+
+void delay_CMockIgnoreArg_veloc(UNITY_LINE_TYPE cmock_line)
+{
+  CMOCK_delay_CALL_INSTANCE* cmock_call_instance = (CMOCK_delay_CALL_INSTANCE*)CMock_Guts_GetAddressFor(CMock_Guts_MemEndOfChain(Mock.delay_CallInstance));
+  UNITY_TEST_ASSERT_NOT_NULL(cmock_call_instance, cmock_line, CMockStringIgnPreExp);
+  cmock_call_instance->IgnoreArg_veloc = 1;
 }
 
 void paso_1(void)

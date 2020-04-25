@@ -48,6 +48,16 @@ void gpioWrite_Stub(CMOCK_gpioWrite_CALLBACK Callback);
 void gpioWrite_CMockIgnoreArg_gpio(UNITY_LINE_TYPE cmock_line);
 #define gpioWrite_IgnoreArg_estadologicoSalida() gpioWrite_CMockIgnoreArg_estadologicoSalida(__LINE__)
 void gpioWrite_CMockIgnoreArg_estadologicoSalida(UNITY_LINE_TYPE cmock_line);
+#define delay_Ignore() delay_CMockIgnore()
+void delay_CMockIgnore(void);
+#define delay_Expect(veloc) delay_CMockExpect(__LINE__, veloc)
+void delay_CMockExpect(UNITY_LINE_TYPE cmock_line, uint8_t veloc);
+typedef void (* CMOCK_delay_CALLBACK)(uint8_t veloc, int cmock_num_calls);
+void delay_AddCallback(CMOCK_delay_CALLBACK Callback);
+void delay_Stub(CMOCK_delay_CALLBACK Callback);
+#define delay_StubWithCallback delay_Stub
+#define delay_IgnoreArg_veloc() delay_CMockIgnoreArg_veloc(__LINE__)
+void delay_CMockIgnoreArg_veloc(UNITY_LINE_TYPE cmock_line);
 #define paso_1_Ignore() paso_1_CMockIgnore()
 void paso_1_CMockIgnore(void);
 #define paso_1_Expect() paso_1_CMockExpect(__LINE__)
