@@ -15,8 +15,10 @@ extern void tearDown(void);
 extern void test_salidasBobina(void);
 extern void test_ActivoUnaSecuenciaPaso(void);
 extern void test_ActivoUnaSecuenciaPaso_2(void);
-extern void test_ActivoUnaSecuenciaPaso_3(void);
-extern void test_ActivoUnaSecuenciaPaso_4(void);
+extern void test_ActivoUnaSecuenciaPaso_CW(void);
+extern void test_ActivoUnaSecuenciaPaso_CCW(void);
+extern void test_ActivoUnaSecuenciaPaso_6(void);
+extern void test_cambioVelocidad(void);
 
 
 /*=======Mock Management=====*/
@@ -86,11 +88,13 @@ static void run_test(UnityTestFunction func, const char* name, int line_num)
 int main(void)
 {
   UnityBegin("test_motorpap2.c");
-  run_test(test_salidasBobina, "test_salidasBobina", 30);
-  run_test(test_ActivoUnaSecuenciaPaso, "test_ActivoUnaSecuenciaPaso", 41);
-  run_test(test_ActivoUnaSecuenciaPaso_2, "test_ActivoUnaSecuenciaPaso_2", 56);
-  run_test(test_ActivoUnaSecuenciaPaso_3, "test_ActivoUnaSecuenciaPaso_3", 89);
-  run_test(test_ActivoUnaSecuenciaPaso_4, "test_ActivoUnaSecuenciaPaso_4", 112);
+  run_test(test_salidasBobina, "test_salidasBobina", 27);
+  run_test(test_ActivoUnaSecuenciaPaso, "test_ActivoUnaSecuenciaPaso", 38);
+  run_test(test_ActivoUnaSecuenciaPaso_2, "test_ActivoUnaSecuenciaPaso_2", 53);
+  run_test(test_ActivoUnaSecuenciaPaso_CW, "test_ActivoUnaSecuenciaPaso_CW", 87);
+  run_test(test_ActivoUnaSecuenciaPaso_CCW, "test_ActivoUnaSecuenciaPaso_CCW", 113);
+  run_test(test_ActivoUnaSecuenciaPaso_6, "test_ActivoUnaSecuenciaPaso_6", 136);
+  run_test(test_cambioVelocidad, "test_cambioVelocidad", 161);
 
   CMock_Guts_MemFreeFinal();
   return UnityEnd();

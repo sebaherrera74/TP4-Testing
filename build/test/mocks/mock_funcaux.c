@@ -5,26 +5,22 @@
 #include "cmock.h"
 #include "mock_funcaux.h"
 
-static const char* CMockString_cmock_arg1 = "cmock_arg1";
-static const char* CMockString_cmock_arg2 = "cmock_arg2";
 static const char* CMockString_delay = "delay";
 static const char* CMockString_estadologicoSalida = "estadologicoSalida";
 static const char* CMockString_gpio = "gpio";
 static const char* CMockString_gpioConfig = "gpioConfig";
 static const char* CMockString_gpioWrite = "gpioWrite";
-static const char* CMockString_paso_1 = "paso_1";
-static const char* CMockString_paso_1_Expected = "paso_1_Expected";
-static const char* CMockString_paso_2_Expected = "paso_2_Expected";
+static const char* CMockString_output = "output";
 static const char* CMockString_veloc = "veloc";
 
 typedef struct _CMOCK_gpioConfig_CALL_INSTANCE
 {
   UNITY_LINE_TYPE LineNumber;
   int CallOrder;
-  uint8_t Expected_cmock_arg1;
-  uint8_t Expected_cmock_arg2;
-  int IgnoreArg_cmock_arg1;
-  int IgnoreArg_cmock_arg2;
+  uint8_t Expected_gpio;
+  uint8_t Expected_output;
+  int IgnoreArg_gpio;
+  int IgnoreArg_output;
 
 } CMOCK_gpioConfig_CALL_INSTANCE;
 
@@ -48,27 +44,6 @@ typedef struct _CMOCK_delay_CALL_INSTANCE
 
 } CMOCK_delay_CALL_INSTANCE;
 
-typedef struct _CMOCK_paso_1_CALL_INSTANCE
-{
-  UNITY_LINE_TYPE LineNumber;
-  int CallOrder;
-
-} CMOCK_paso_1_CALL_INSTANCE;
-
-typedef struct _CMOCK_paso_1_Expected_CALL_INSTANCE
-{
-  UNITY_LINE_TYPE LineNumber;
-  int CallOrder;
-
-} CMOCK_paso_1_Expected_CALL_INSTANCE;
-
-typedef struct _CMOCK_paso_2_Expected_CALL_INSTANCE
-{
-  UNITY_LINE_TYPE LineNumber;
-  int CallOrder;
-
-} CMOCK_paso_2_Expected_CALL_INSTANCE;
-
 static struct mock_funcauxInstance
 {
   int gpioConfig_IgnoreBool;
@@ -86,21 +61,6 @@ static struct mock_funcauxInstance
   CMOCK_delay_CALLBACK delay_CallbackFunctionPointer;
   int delay_CallbackCalls;
   CMOCK_MEM_INDEX_TYPE delay_CallInstance;
-  int paso_1_IgnoreBool;
-  int paso_1_CallbackBool;
-  CMOCK_paso_1_CALLBACK paso_1_CallbackFunctionPointer;
-  int paso_1_CallbackCalls;
-  CMOCK_MEM_INDEX_TYPE paso_1_CallInstance;
-  int paso_1_Expected_IgnoreBool;
-  int paso_1_Expected_CallbackBool;
-  CMOCK_paso_1_Expected_CALLBACK paso_1_Expected_CallbackFunctionPointer;
-  int paso_1_Expected_CallbackCalls;
-  CMOCK_MEM_INDEX_TYPE paso_1_Expected_CallInstance;
-  int paso_2_Expected_IgnoreBool;
-  int paso_2_Expected_CallbackBool;
-  CMOCK_paso_2_Expected_CALLBACK paso_2_Expected_CallbackFunctionPointer;
-  int paso_2_Expected_CallbackCalls;
-  CMOCK_MEM_INDEX_TYPE paso_2_Expected_CallInstance;
 } Mock;
 
 extern jmp_buf AbortFrame;
@@ -135,30 +95,6 @@ void mock_funcaux_Verify(void)
   UNITY_CLR_DETAILS();
   if (Mock.delay_CallbackFunctionPointer != NULL)
     call_instance = CMOCK_GUTS_NONE;
-  call_instance = Mock.paso_1_CallInstance;
-  if (Mock.paso_1_IgnoreBool)
-    call_instance = CMOCK_GUTS_NONE;
-  UNITY_SET_DETAIL(CMockString_paso_1);
-  UNITY_TEST_ASSERT(CMOCK_GUTS_NONE == call_instance, cmock_line, CMockStringCalledLess);
-  UNITY_CLR_DETAILS();
-  if (Mock.paso_1_CallbackFunctionPointer != NULL)
-    call_instance = CMOCK_GUTS_NONE;
-  call_instance = Mock.paso_1_Expected_CallInstance;
-  if (Mock.paso_1_Expected_IgnoreBool)
-    call_instance = CMOCK_GUTS_NONE;
-  UNITY_SET_DETAIL(CMockString_paso_1_Expected);
-  UNITY_TEST_ASSERT(CMOCK_GUTS_NONE == call_instance, cmock_line, CMockStringCalledLess);
-  UNITY_CLR_DETAILS();
-  if (Mock.paso_1_Expected_CallbackFunctionPointer != NULL)
-    call_instance = CMOCK_GUTS_NONE;
-  call_instance = Mock.paso_2_Expected_CallInstance;
-  if (Mock.paso_2_Expected_IgnoreBool)
-    call_instance = CMOCK_GUTS_NONE;
-  UNITY_SET_DETAIL(CMockString_paso_2_Expected);
-  UNITY_TEST_ASSERT(CMOCK_GUTS_NONE == call_instance, cmock_line, CMockStringCalledLess);
-  UNITY_CLR_DETAILS();
-  if (Mock.paso_2_Expected_CallbackFunctionPointer != NULL)
-    call_instance = CMOCK_GUTS_NONE;
 }
 
 void mock_funcaux_Init(void)
@@ -174,7 +110,7 @@ void mock_funcaux_Destroy(void)
   GlobalVerifyOrder = 0;
 }
 
-void gpioConfig(uint8_t cmock_arg1, uint8_t cmock_arg2)
+void gpioConfig(uint8_t gpio, uint8_t output)
 {
   UNITY_LINE_TYPE cmock_line = TEST_LINE_NUM;
   CMOCK_gpioConfig_CALL_INSTANCE* cmock_call_instance;
@@ -189,7 +125,7 @@ void gpioConfig(uint8_t cmock_arg1, uint8_t cmock_arg2)
   if (!Mock.gpioConfig_CallbackBool &&
       Mock.gpioConfig_CallbackFunctionPointer != NULL)
   {
-    Mock.gpioConfig_CallbackFunctionPointer(cmock_arg1, cmock_arg2, Mock.gpioConfig_CallbackCalls++);
+    Mock.gpioConfig_CallbackFunctionPointer(gpio, output, Mock.gpioConfig_CallbackCalls++);
     UNITY_CLR_DETAILS();
     return;
   }
@@ -199,30 +135,30 @@ void gpioConfig(uint8_t cmock_arg1, uint8_t cmock_arg2)
     UNITY_TEST_FAIL(cmock_line, CMockStringCalledEarly);
   if (cmock_call_instance->CallOrder < GlobalVerifyOrder)
     UNITY_TEST_FAIL(cmock_line, CMockStringCalledLate);
-  if (!cmock_call_instance->IgnoreArg_cmock_arg1)
+  if (!cmock_call_instance->IgnoreArg_gpio)
   {
-    UNITY_SET_DETAILS(CMockString_gpioConfig,CMockString_cmock_arg1);
-    UNITY_TEST_ASSERT_EQUAL_HEX8(cmock_call_instance->Expected_cmock_arg1, cmock_arg1, cmock_line, CMockStringMismatch);
+    UNITY_SET_DETAILS(CMockString_gpioConfig,CMockString_gpio);
+    UNITY_TEST_ASSERT_EQUAL_HEX8(cmock_call_instance->Expected_gpio, gpio, cmock_line, CMockStringMismatch);
   }
-  if (!cmock_call_instance->IgnoreArg_cmock_arg2)
+  if (!cmock_call_instance->IgnoreArg_output)
   {
-    UNITY_SET_DETAILS(CMockString_gpioConfig,CMockString_cmock_arg2);
-    UNITY_TEST_ASSERT_EQUAL_HEX8(cmock_call_instance->Expected_cmock_arg2, cmock_arg2, cmock_line, CMockStringMismatch);
+    UNITY_SET_DETAILS(CMockString_gpioConfig,CMockString_output);
+    UNITY_TEST_ASSERT_EQUAL_HEX8(cmock_call_instance->Expected_output, output, cmock_line, CMockStringMismatch);
   }
   if (Mock.gpioConfig_CallbackFunctionPointer != NULL)
   {
-    Mock.gpioConfig_CallbackFunctionPointer(cmock_arg1, cmock_arg2, Mock.gpioConfig_CallbackCalls++);
+    Mock.gpioConfig_CallbackFunctionPointer(gpio, output, Mock.gpioConfig_CallbackCalls++);
   }
   UNITY_CLR_DETAILS();
 }
 
-void CMockExpectParameters_gpioConfig(CMOCK_gpioConfig_CALL_INSTANCE* cmock_call_instance, uint8_t cmock_arg1, uint8_t cmock_arg2);
-void CMockExpectParameters_gpioConfig(CMOCK_gpioConfig_CALL_INSTANCE* cmock_call_instance, uint8_t cmock_arg1, uint8_t cmock_arg2)
+void CMockExpectParameters_gpioConfig(CMOCK_gpioConfig_CALL_INSTANCE* cmock_call_instance, uint8_t gpio, uint8_t output);
+void CMockExpectParameters_gpioConfig(CMOCK_gpioConfig_CALL_INSTANCE* cmock_call_instance, uint8_t gpio, uint8_t output)
 {
-  cmock_call_instance->Expected_cmock_arg1 = cmock_arg1;
-  cmock_call_instance->IgnoreArg_cmock_arg1 = 0;
-  cmock_call_instance->Expected_cmock_arg2 = cmock_arg2;
-  cmock_call_instance->IgnoreArg_cmock_arg2 = 0;
+  cmock_call_instance->Expected_gpio = gpio;
+  cmock_call_instance->IgnoreArg_gpio = 0;
+  cmock_call_instance->Expected_output = output;
+  cmock_call_instance->IgnoreArg_output = 0;
 }
 
 void gpioConfig_CMockIgnore(void)
@@ -230,7 +166,7 @@ void gpioConfig_CMockIgnore(void)
   Mock.gpioConfig_IgnoreBool = (int)1;
 }
 
-void gpioConfig_CMockExpect(UNITY_LINE_TYPE cmock_line, uint8_t cmock_arg1, uint8_t cmock_arg2)
+void gpioConfig_CMockExpect(UNITY_LINE_TYPE cmock_line, uint8_t gpio, uint8_t output)
 {
   CMOCK_MEM_INDEX_TYPE cmock_guts_index = CMock_Guts_MemNew(sizeof(CMOCK_gpioConfig_CALL_INSTANCE));
   CMOCK_gpioConfig_CALL_INSTANCE* cmock_call_instance = (CMOCK_gpioConfig_CALL_INSTANCE*)CMock_Guts_GetAddressFor(cmock_guts_index);
@@ -240,7 +176,7 @@ void gpioConfig_CMockExpect(UNITY_LINE_TYPE cmock_line, uint8_t cmock_arg1, uint
   Mock.gpioConfig_IgnoreBool = (int)0;
   cmock_call_instance->LineNumber = cmock_line;
   cmock_call_instance->CallOrder = ++GlobalExpectCount;
-  CMockExpectParameters_gpioConfig(cmock_call_instance, cmock_arg1, cmock_arg2);
+  CMockExpectParameters_gpioConfig(cmock_call_instance, gpio, output);
 }
 
 void gpioConfig_AddCallback(CMOCK_gpioConfig_CALLBACK Callback)
@@ -257,18 +193,18 @@ void gpioConfig_Stub(CMOCK_gpioConfig_CALLBACK Callback)
   Mock.gpioConfig_CallbackFunctionPointer = Callback;
 }
 
-void gpioConfig_CMockIgnoreArg_cmock_arg1(UNITY_LINE_TYPE cmock_line)
+void gpioConfig_CMockIgnoreArg_gpio(UNITY_LINE_TYPE cmock_line)
 {
   CMOCK_gpioConfig_CALL_INSTANCE* cmock_call_instance = (CMOCK_gpioConfig_CALL_INSTANCE*)CMock_Guts_GetAddressFor(CMock_Guts_MemEndOfChain(Mock.gpioConfig_CallInstance));
   UNITY_TEST_ASSERT_NOT_NULL(cmock_call_instance, cmock_line, CMockStringIgnPreExp);
-  cmock_call_instance->IgnoreArg_cmock_arg1 = 1;
+  cmock_call_instance->IgnoreArg_gpio = 1;
 }
 
-void gpioConfig_CMockIgnoreArg_cmock_arg2(UNITY_LINE_TYPE cmock_line)
+void gpioConfig_CMockIgnoreArg_output(UNITY_LINE_TYPE cmock_line)
 {
   CMOCK_gpioConfig_CALL_INSTANCE* cmock_call_instance = (CMOCK_gpioConfig_CALL_INSTANCE*)CMock_Guts_GetAddressFor(CMock_Guts_MemEndOfChain(Mock.gpioConfig_CallInstance));
   UNITY_TEST_ASSERT_NOT_NULL(cmock_call_instance, cmock_line, CMockStringIgnPreExp);
-  cmock_call_instance->IgnoreArg_cmock_arg2 = 1;
+  cmock_call_instance->IgnoreArg_output = 1;
 }
 
 void gpioWrite(uint8_t gpio, uint8_t estadologicoSalida)
@@ -449,194 +385,5 @@ void delay_CMockIgnoreArg_veloc(UNITY_LINE_TYPE cmock_line)
   CMOCK_delay_CALL_INSTANCE* cmock_call_instance = (CMOCK_delay_CALL_INSTANCE*)CMock_Guts_GetAddressFor(CMock_Guts_MemEndOfChain(Mock.delay_CallInstance));
   UNITY_TEST_ASSERT_NOT_NULL(cmock_call_instance, cmock_line, CMockStringIgnPreExp);
   cmock_call_instance->IgnoreArg_veloc = 1;
-}
-
-void paso_1(void)
-{
-  UNITY_LINE_TYPE cmock_line = TEST_LINE_NUM;
-  CMOCK_paso_1_CALL_INSTANCE* cmock_call_instance;
-  UNITY_SET_DETAIL(CMockString_paso_1);
-  cmock_call_instance = (CMOCK_paso_1_CALL_INSTANCE*)CMock_Guts_GetAddressFor(Mock.paso_1_CallInstance);
-  Mock.paso_1_CallInstance = CMock_Guts_MemNext(Mock.paso_1_CallInstance);
-  if (Mock.paso_1_IgnoreBool)
-  {
-    UNITY_CLR_DETAILS();
-    return;
-  }
-  if (!Mock.paso_1_CallbackBool &&
-      Mock.paso_1_CallbackFunctionPointer != NULL)
-  {
-    Mock.paso_1_CallbackFunctionPointer(Mock.paso_1_CallbackCalls++);
-    UNITY_CLR_DETAILS();
-    return;
-  }
-  UNITY_TEST_ASSERT_NOT_NULL(cmock_call_instance, cmock_line, CMockStringCalledMore);
-  cmock_line = cmock_call_instance->LineNumber;
-  if (cmock_call_instance->CallOrder > ++GlobalVerifyOrder)
-    UNITY_TEST_FAIL(cmock_line, CMockStringCalledEarly);
-  if (cmock_call_instance->CallOrder < GlobalVerifyOrder)
-    UNITY_TEST_FAIL(cmock_line, CMockStringCalledLate);
-  if (Mock.paso_1_CallbackFunctionPointer != NULL)
-  {
-    Mock.paso_1_CallbackFunctionPointer(Mock.paso_1_CallbackCalls++);
-  }
-  UNITY_CLR_DETAILS();
-}
-
-void paso_1_CMockIgnore(void)
-{
-  Mock.paso_1_IgnoreBool = (int)1;
-}
-
-void paso_1_CMockExpect(UNITY_LINE_TYPE cmock_line)
-{
-  CMOCK_MEM_INDEX_TYPE cmock_guts_index = CMock_Guts_MemNew(sizeof(CMOCK_paso_1_CALL_INSTANCE));
-  CMOCK_paso_1_CALL_INSTANCE* cmock_call_instance = (CMOCK_paso_1_CALL_INSTANCE*)CMock_Guts_GetAddressFor(cmock_guts_index);
-  UNITY_TEST_ASSERT_NOT_NULL(cmock_call_instance, cmock_line, CMockStringOutOfMemory);
-  memset(cmock_call_instance, 0, sizeof(*cmock_call_instance));
-  Mock.paso_1_CallInstance = CMock_Guts_MemChain(Mock.paso_1_CallInstance, cmock_guts_index);
-  Mock.paso_1_IgnoreBool = (int)0;
-  cmock_call_instance->LineNumber = cmock_line;
-  cmock_call_instance->CallOrder = ++GlobalExpectCount;
-}
-
-void paso_1_AddCallback(CMOCK_paso_1_CALLBACK Callback)
-{
-  Mock.paso_1_IgnoreBool = (int)0;
-  Mock.paso_1_CallbackBool = (int)1;
-  Mock.paso_1_CallbackFunctionPointer = Callback;
-}
-
-void paso_1_Stub(CMOCK_paso_1_CALLBACK Callback)
-{
-  Mock.paso_1_IgnoreBool = (int)0;
-  Mock.paso_1_CallbackBool = (int)0;
-  Mock.paso_1_CallbackFunctionPointer = Callback;
-}
-
-void paso_1_Expected(void)
-{
-  UNITY_LINE_TYPE cmock_line = TEST_LINE_NUM;
-  CMOCK_paso_1_Expected_CALL_INSTANCE* cmock_call_instance;
-  UNITY_SET_DETAIL(CMockString_paso_1_Expected);
-  cmock_call_instance = (CMOCK_paso_1_Expected_CALL_INSTANCE*)CMock_Guts_GetAddressFor(Mock.paso_1_Expected_CallInstance);
-  Mock.paso_1_Expected_CallInstance = CMock_Guts_MemNext(Mock.paso_1_Expected_CallInstance);
-  if (Mock.paso_1_Expected_IgnoreBool)
-  {
-    UNITY_CLR_DETAILS();
-    return;
-  }
-  if (!Mock.paso_1_Expected_CallbackBool &&
-      Mock.paso_1_Expected_CallbackFunctionPointer != NULL)
-  {
-    Mock.paso_1_Expected_CallbackFunctionPointer(Mock.paso_1_Expected_CallbackCalls++);
-    UNITY_CLR_DETAILS();
-    return;
-  }
-  UNITY_TEST_ASSERT_NOT_NULL(cmock_call_instance, cmock_line, CMockStringCalledMore);
-  cmock_line = cmock_call_instance->LineNumber;
-  if (cmock_call_instance->CallOrder > ++GlobalVerifyOrder)
-    UNITY_TEST_FAIL(cmock_line, CMockStringCalledEarly);
-  if (cmock_call_instance->CallOrder < GlobalVerifyOrder)
-    UNITY_TEST_FAIL(cmock_line, CMockStringCalledLate);
-  if (Mock.paso_1_Expected_CallbackFunctionPointer != NULL)
-  {
-    Mock.paso_1_Expected_CallbackFunctionPointer(Mock.paso_1_Expected_CallbackCalls++);
-  }
-  UNITY_CLR_DETAILS();
-}
-
-void paso_1_Expected_CMockIgnore(void)
-{
-  Mock.paso_1_Expected_IgnoreBool = (int)1;
-}
-
-void paso_1_Expected_CMockExpect(UNITY_LINE_TYPE cmock_line)
-{
-  CMOCK_MEM_INDEX_TYPE cmock_guts_index = CMock_Guts_MemNew(sizeof(CMOCK_paso_1_Expected_CALL_INSTANCE));
-  CMOCK_paso_1_Expected_CALL_INSTANCE* cmock_call_instance = (CMOCK_paso_1_Expected_CALL_INSTANCE*)CMock_Guts_GetAddressFor(cmock_guts_index);
-  UNITY_TEST_ASSERT_NOT_NULL(cmock_call_instance, cmock_line, CMockStringOutOfMemory);
-  memset(cmock_call_instance, 0, sizeof(*cmock_call_instance));
-  Mock.paso_1_Expected_CallInstance = CMock_Guts_MemChain(Mock.paso_1_Expected_CallInstance, cmock_guts_index);
-  Mock.paso_1_Expected_IgnoreBool = (int)0;
-  cmock_call_instance->LineNumber = cmock_line;
-  cmock_call_instance->CallOrder = ++GlobalExpectCount;
-}
-
-void paso_1_Expected_AddCallback(CMOCK_paso_1_Expected_CALLBACK Callback)
-{
-  Mock.paso_1_Expected_IgnoreBool = (int)0;
-  Mock.paso_1_Expected_CallbackBool = (int)1;
-  Mock.paso_1_Expected_CallbackFunctionPointer = Callback;
-}
-
-void paso_1_Expected_Stub(CMOCK_paso_1_Expected_CALLBACK Callback)
-{
-  Mock.paso_1_Expected_IgnoreBool = (int)0;
-  Mock.paso_1_Expected_CallbackBool = (int)0;
-  Mock.paso_1_Expected_CallbackFunctionPointer = Callback;
-}
-
-void paso_2_Expected(void)
-{
-  UNITY_LINE_TYPE cmock_line = TEST_LINE_NUM;
-  CMOCK_paso_2_Expected_CALL_INSTANCE* cmock_call_instance;
-  UNITY_SET_DETAIL(CMockString_paso_2_Expected);
-  cmock_call_instance = (CMOCK_paso_2_Expected_CALL_INSTANCE*)CMock_Guts_GetAddressFor(Mock.paso_2_Expected_CallInstance);
-  Mock.paso_2_Expected_CallInstance = CMock_Guts_MemNext(Mock.paso_2_Expected_CallInstance);
-  if (Mock.paso_2_Expected_IgnoreBool)
-  {
-    UNITY_CLR_DETAILS();
-    return;
-  }
-  if (!Mock.paso_2_Expected_CallbackBool &&
-      Mock.paso_2_Expected_CallbackFunctionPointer != NULL)
-  {
-    Mock.paso_2_Expected_CallbackFunctionPointer(Mock.paso_2_Expected_CallbackCalls++);
-    UNITY_CLR_DETAILS();
-    return;
-  }
-  UNITY_TEST_ASSERT_NOT_NULL(cmock_call_instance, cmock_line, CMockStringCalledMore);
-  cmock_line = cmock_call_instance->LineNumber;
-  if (cmock_call_instance->CallOrder > ++GlobalVerifyOrder)
-    UNITY_TEST_FAIL(cmock_line, CMockStringCalledEarly);
-  if (cmock_call_instance->CallOrder < GlobalVerifyOrder)
-    UNITY_TEST_FAIL(cmock_line, CMockStringCalledLate);
-  if (Mock.paso_2_Expected_CallbackFunctionPointer != NULL)
-  {
-    Mock.paso_2_Expected_CallbackFunctionPointer(Mock.paso_2_Expected_CallbackCalls++);
-  }
-  UNITY_CLR_DETAILS();
-}
-
-void paso_2_Expected_CMockIgnore(void)
-{
-  Mock.paso_2_Expected_IgnoreBool = (int)1;
-}
-
-void paso_2_Expected_CMockExpect(UNITY_LINE_TYPE cmock_line)
-{
-  CMOCK_MEM_INDEX_TYPE cmock_guts_index = CMock_Guts_MemNew(sizeof(CMOCK_paso_2_Expected_CALL_INSTANCE));
-  CMOCK_paso_2_Expected_CALL_INSTANCE* cmock_call_instance = (CMOCK_paso_2_Expected_CALL_INSTANCE*)CMock_Guts_GetAddressFor(cmock_guts_index);
-  UNITY_TEST_ASSERT_NOT_NULL(cmock_call_instance, cmock_line, CMockStringOutOfMemory);
-  memset(cmock_call_instance, 0, sizeof(*cmock_call_instance));
-  Mock.paso_2_Expected_CallInstance = CMock_Guts_MemChain(Mock.paso_2_Expected_CallInstance, cmock_guts_index);
-  Mock.paso_2_Expected_IgnoreBool = (int)0;
-  cmock_call_instance->LineNumber = cmock_line;
-  cmock_call_instance->CallOrder = ++GlobalExpectCount;
-}
-
-void paso_2_Expected_AddCallback(CMOCK_paso_2_Expected_CALLBACK Callback)
-{
-  Mock.paso_2_Expected_IgnoreBool = (int)0;
-  Mock.paso_2_Expected_CallbackBool = (int)1;
-  Mock.paso_2_Expected_CallbackFunctionPointer = Callback;
-}
-
-void paso_2_Expected_Stub(CMOCK_paso_2_Expected_CALLBACK Callback)
-{
-  Mock.paso_2_Expected_IgnoreBool = (int)0;
-  Mock.paso_2_Expected_CallbackBool = (int)0;
-  Mock.paso_2_Expected_CallbackFunctionPointer = Callback;
 }
 

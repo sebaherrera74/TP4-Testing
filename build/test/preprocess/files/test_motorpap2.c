@@ -12,13 +12,7 @@ void setUp(void){
 
 
 
-    GPIO1=1;
 
-    GPIO2=2;
-
-    GPIO3=3;
-
-    GPIO4=4;
 
 }
 
@@ -38,19 +32,19 @@ void tearDown(void){
 
 void test_salidasBobina(void){
 
-    uint16_t cantpasos=0;
+    uint16_t cantpasos=1;
 
 
 
-    gpioConfig_CMockExpect(33, GPIO1, 1);
+    gpioConfig_CMockExpect(30, GPIO1, 1);
 
- gpioConfig_CMockExpect(34, GPIO2, 1);
+ gpioConfig_CMockExpect(31, GPIO2, 1);
 
- gpioConfig_CMockExpect(35, GPIO3, 1);
+ gpioConfig_CMockExpect(32, GPIO3, 1);
 
- gpioConfig_CMockExpect(36, GPIO4, 1);
+ gpioConfig_CMockExpect(33, GPIO4, 1);
 
-    inicializacionMotor(cantpasos);
+    inicializacionMotor();
 
 }
 
@@ -62,21 +56,19 @@ void test_salidasBobina(void){
 
      int8_t cantPasos=1;
 
-     uint8_t sentidoGiro=1;
-
      uint8_t velocidad=1;
 
      int i;
 
 
 
-      gpioWrite_CMockExpect(47, GPIO1, 1);
+      gpioWrite_CMockExpect(43, GPIO1, 1);
 
-   gpioWrite_CMockExpect(48, GPIO2, 1);
+  gpioWrite_CMockExpect(44, GPIO2, 1);
 
-   gpioWrite_CMockExpect(49, GPIO3, 1);
+  gpioWrite_CMockExpect(45, GPIO3, 1);
 
-   gpioWrite_CMockExpect(50, GPIO4, 0);
+  gpioWrite_CMockExpect(46, GPIO4, 0);
 
       delay_CMockIgnore();
 
@@ -85,6 +77,8 @@ void test_salidasBobina(void){
 
 
  }
+
+
 
 
 
@@ -92,57 +86,55 @@ void test_ActivoUnaSecuenciaPaso_2(void){
 
      int8_t cantPasos=4;
 
-     uint8_t sentidoGiro=1;
-
      uint8_t velocidad=1;
 
      int i;
 
 
 
-      gpioWrite_CMockExpect(62, GPIO1, 1);
+      gpioWrite_CMockExpect(58, GPIO1, 1);
 
-   gpioWrite_CMockExpect(63, GPIO2, 1);
+  gpioWrite_CMockExpect(59, GPIO2, 1);
 
-   gpioWrite_CMockExpect(64, GPIO3, 1);
+  gpioWrite_CMockExpect(60, GPIO3, 1);
 
-   gpioWrite_CMockExpect(65, GPIO4, 0);
-
-      delay_CMockIgnore();
-
-
-
-      gpioWrite_CMockExpect(68, GPIO1, 1);
-
-   gpioWrite_CMockExpect(69, GPIO2, 1);
-
-   gpioWrite_CMockExpect(70, GPIO3, 0);
-
-   gpioWrite_CMockExpect(71, GPIO4, 1);
+  gpioWrite_CMockExpect(61, GPIO4, 0);
 
       delay_CMockIgnore();
 
 
 
-      gpioWrite_CMockExpect(74, GPIO1, 1);
+      gpioWrite_CMockExpect(64, GPIO1, 1);
 
-   gpioWrite_CMockExpect(75, GPIO2, 0);
+  gpioWrite_CMockExpect(65, GPIO2, 1);
 
-   gpioWrite_CMockExpect(76, GPIO3, 1);
+  gpioWrite_CMockExpect(66, GPIO3, 0);
 
-   gpioWrite_CMockExpect(77, GPIO4, 1);
+  gpioWrite_CMockExpect(67, GPIO4, 1);
 
       delay_CMockIgnore();
 
 
 
-      gpioWrite_CMockExpect(80, GPIO1, 0);
+      gpioWrite_CMockExpect(70, GPIO1, 1);
 
-   gpioWrite_CMockExpect(81, GPIO2, 1);
+  gpioWrite_CMockExpect(71, GPIO2, 0);
 
-   gpioWrite_CMockExpect(82, GPIO3, 1);
+  gpioWrite_CMockExpect(72, GPIO3, 1);
 
-   gpioWrite_CMockExpect(83, GPIO4, 1);
+  gpioWrite_CMockExpect(73, GPIO4, 1);
+
+      delay_CMockIgnore();
+
+
+
+      gpioWrite_CMockExpect(76, GPIO1, 0);
+
+  gpioWrite_CMockExpect(77, GPIO2, 1);
+
+  gpioWrite_CMockExpect(78, GPIO3, 1);
+
+  gpioWrite_CMockExpect(79, GPIO4, 1);
 
       delay_CMockIgnore();
 
@@ -154,11 +146,13 @@ void test_ActivoUnaSecuenciaPaso_2(void){
 
 
 
- void test_ActivoUnaSecuenciaPaso_3(void){
+
+
+
+
+ void test_ActivoUnaSecuenciaPaso_CW(void){
 
      int8_t cantPasos=6;
-
-     uint8_t sentidoGiro=1;
 
      uint8_t velocidad=1;
 
@@ -178,21 +172,25 @@ void test_ActivoUnaSecuenciaPaso_2(void){
 
 
 
-    for(i=0;i<cantPasos;i++){
+      for(i=0;i<cantPasos;i++){
 
-      aux=(i+4)%4;
 
-      gpioWrite_CMockExpect(103, GPIO1, sPasos[aux][0]);
 
-   gpioWrite_CMockExpect(104, GPIO2, sPasos[aux][1]);
+        aux=(i+4)%4;
 
-   gpioWrite_CMockExpect(105, GPIO3, sPasos[aux][2]);
+       gpioWrite_CMockExpect(101, GPIO1, sPasos[aux][0]);
 
-   gpioWrite_CMockExpect(106, GPIO4, sPasos[aux][3]);
+    gpioWrite_CMockExpect(102, GPIO2, sPasos[aux][1]);
 
-      delay_CMockIgnore();
+    gpioWrite_CMockExpect(103, GPIO3, sPasos[aux][2]);
 
-       }
+    gpioWrite_CMockExpect(104, GPIO4, sPasos[aux][3]);
+
+       delay_CMockIgnore();
+
+        }
+
+
 
        secuenciaCW(velocidad,cantPasos);
 
@@ -200,11 +198,13 @@ void test_ActivoUnaSecuenciaPaso_2(void){
 
 
 
-void test_ActivoUnaSecuenciaPaso_4(void){
+
+
+
+
+void test_ActivoUnaSecuenciaPaso_CCW(void){
 
      int8_t cantPasos=6;
-
-     uint8_t sentidoGiro=1;
 
      uint8_t velocidad=1;
 
@@ -220,7 +220,7 @@ void test_ActivoUnaSecuenciaPaso_4(void){
 
              {0,1,1,1}
 
-                };
+                 };
 
 
 
@@ -228,20 +228,88 @@ void test_ActivoUnaSecuenciaPaso_4(void){
 
       aux=(i+4)%4;
 
-      gpioWrite_CMockExpect(126, GPIO1, sPasos[aux][3]);
+     gpioWrite_CMockExpect(126, GPIO1, sPasos[aux][3]);
 
-   gpioWrite_CMockExpect(127, GPIO2, sPasos[aux][2]);
+  gpioWrite_CMockExpect(127, GPIO2, sPasos[aux][2]);
 
-   gpioWrite_CMockExpect(128, GPIO3, sPasos[aux][1]);
+  gpioWrite_CMockExpect(128, GPIO3, sPasos[aux][1]);
 
-   gpioWrite_CMockExpect(129, GPIO4, sPasos[aux][0]);
+  gpioWrite_CMockExpect(129, GPIO4, sPasos[aux][0]);
 
-      delay_CMockIgnore();
+     delay_CMockIgnore();
 
        }
 
-       secuenciaCCW(velocidad,cantPasos);
-
-
+      secuenciaCCW(velocidad,cantPasos);
 
 }
+
+
+
+
+
+void test_ActivoUnaSecuenciaPaso_6(void){
+
+     int8_t cantPasos=1;
+
+     uint32_t tiempoActivacionBobina=2;
+
+     uint32_t contTiempo=2;
+
+     int i;
+
+
+
+
+
+      if (tiempoActivacionBobina==contTiempo) {
+
+           gpioWrite_CMockExpect(144, GPIO1, 1);
+
+       gpioWrite_CMockExpect(145, GPIO2, 1);
+
+       gpioWrite_CMockExpect(146, GPIO3, 1);
+
+       gpioWrite_CMockExpect(147, GPIO4, 0);
+
+
+
+          }
+
+      else {
+
+           contTiempo++;
+
+
+
+        }
+
+
+
+      secuenciaCW_Sindelay(cantPasos);
+
+ }
+
+
+
+
+
+
+
+
+
+ void test_cambioVelocidad(void){
+
+     int velocidadSp=4;
+
+     int velocidadSeleccionada;
+
+     velocidadSeleccionada=cambioVelocidad(velocidadSp);
+
+     UnityAssertEqualNumber((UNITY_INT)((4)), (UNITY_INT)((velocidadSeleccionada)), (
+
+    ((void *)0)
+
+    ), (UNITY_UINT)(165), UNITY_DISPLAY_STYLE_INT);
+
+    }

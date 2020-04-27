@@ -4,31 +4,39 @@
   :file: test_motorpap2.c
 :successes:
 - :test: test_salidasBobina
-  :line: 30
+  :line: 27
   :message: ''
   :unity_test_time: 0
 - :test: test_ActivoUnaSecuenciaPaso
-  :line: 41
+  :line: 38
   :message: ''
   :unity_test_time: 0
 - :test: test_ActivoUnaSecuenciaPaso_2
-  :line: 56
+  :line: 53
   :message: ''
   :unity_test_time: 0
-- :test: test_ActivoUnaSecuenciaPaso_3
-  :line: 89
+- :test: test_ActivoUnaSecuenciaPaso_CW
+  :line: 87
   :message: ''
   :unity_test_time: 0
-- :test: test_ActivoUnaSecuenciaPaso_4
-  :line: 112
+- :test: test_ActivoUnaSecuenciaPaso_CCW
+  :line: 113
+  :message: ''
+  :unity_test_time: 0
+- :test: test_ActivoUnaSecuenciaPaso_6
+  :line: 136
+  :message: ''
+  :unity_test_time: 0
+- :test: test_cambioVelocidad
+  :line: 161
   :message: ''
   :unity_test_time: 0
 :failures: []
 :ignores: []
 :counts:
-  :total: 5
-  :passed: 5
+  :total: 7
+  :passed: 7
   :failed: 0
   :ignored: 0
 :stdout: []
-:time: 0.001205067000228155
+:time: 0.001397289999658824

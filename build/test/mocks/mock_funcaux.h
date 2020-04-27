@@ -26,16 +26,16 @@ void mock_funcaux_Verify(void);
 
 #define gpioConfig_Ignore() gpioConfig_CMockIgnore()
 void gpioConfig_CMockIgnore(void);
-#define gpioConfig_Expect(cmock_arg1, cmock_arg2) gpioConfig_CMockExpect(__LINE__, cmock_arg1, cmock_arg2)
-void gpioConfig_CMockExpect(UNITY_LINE_TYPE cmock_line, uint8_t cmock_arg1, uint8_t cmock_arg2);
-typedef void (* CMOCK_gpioConfig_CALLBACK)(uint8_t cmock_arg1, uint8_t cmock_arg2, int cmock_num_calls);
+#define gpioConfig_Expect(gpio, output) gpioConfig_CMockExpect(__LINE__, gpio, output)
+void gpioConfig_CMockExpect(UNITY_LINE_TYPE cmock_line, uint8_t gpio, uint8_t output);
+typedef void (* CMOCK_gpioConfig_CALLBACK)(uint8_t gpio, uint8_t output, int cmock_num_calls);
 void gpioConfig_AddCallback(CMOCK_gpioConfig_CALLBACK Callback);
 void gpioConfig_Stub(CMOCK_gpioConfig_CALLBACK Callback);
 #define gpioConfig_StubWithCallback gpioConfig_Stub
-#define gpioConfig_IgnoreArg_cmock_arg1() gpioConfig_CMockIgnoreArg_cmock_arg1(__LINE__)
-void gpioConfig_CMockIgnoreArg_cmock_arg1(UNITY_LINE_TYPE cmock_line);
-#define gpioConfig_IgnoreArg_cmock_arg2() gpioConfig_CMockIgnoreArg_cmock_arg2(__LINE__)
-void gpioConfig_CMockIgnoreArg_cmock_arg2(UNITY_LINE_TYPE cmock_line);
+#define gpioConfig_IgnoreArg_gpio() gpioConfig_CMockIgnoreArg_gpio(__LINE__)
+void gpioConfig_CMockIgnoreArg_gpio(UNITY_LINE_TYPE cmock_line);
+#define gpioConfig_IgnoreArg_output() gpioConfig_CMockIgnoreArg_output(__LINE__)
+void gpioConfig_CMockIgnoreArg_output(UNITY_LINE_TYPE cmock_line);
 #define gpioWrite_Ignore() gpioWrite_CMockIgnore()
 void gpioWrite_CMockIgnore(void);
 #define gpioWrite_Expect(gpio, estadologicoSalida) gpioWrite_CMockExpect(__LINE__, gpio, estadologicoSalida)
@@ -58,30 +58,6 @@ void delay_Stub(CMOCK_delay_CALLBACK Callback);
 #define delay_StubWithCallback delay_Stub
 #define delay_IgnoreArg_veloc() delay_CMockIgnoreArg_veloc(__LINE__)
 void delay_CMockIgnoreArg_veloc(UNITY_LINE_TYPE cmock_line);
-#define paso_1_Ignore() paso_1_CMockIgnore()
-void paso_1_CMockIgnore(void);
-#define paso_1_Expect() paso_1_CMockExpect(__LINE__)
-void paso_1_CMockExpect(UNITY_LINE_TYPE cmock_line);
-typedef void (* CMOCK_paso_1_CALLBACK)(int cmock_num_calls);
-void paso_1_AddCallback(CMOCK_paso_1_CALLBACK Callback);
-void paso_1_Stub(CMOCK_paso_1_CALLBACK Callback);
-#define paso_1_StubWithCallback paso_1_Stub
-#define paso_1_Expected_Ignore() paso_1_Expected_CMockIgnore()
-void paso_1_Expected_CMockIgnore(void);
-#define paso_1_Expected_Expect() paso_1_Expected_CMockExpect(__LINE__)
-void paso_1_Expected_CMockExpect(UNITY_LINE_TYPE cmock_line);
-typedef void (* CMOCK_paso_1_Expected_CALLBACK)(int cmock_num_calls);
-void paso_1_Expected_AddCallback(CMOCK_paso_1_Expected_CALLBACK Callback);
-void paso_1_Expected_Stub(CMOCK_paso_1_Expected_CALLBACK Callback);
-#define paso_1_Expected_StubWithCallback paso_1_Expected_Stub
-#define paso_2_Expected_Ignore() paso_2_Expected_CMockIgnore()
-void paso_2_Expected_CMockIgnore(void);
-#define paso_2_Expected_Expect() paso_2_Expected_CMockExpect(__LINE__)
-void paso_2_Expected_CMockExpect(UNITY_LINE_TYPE cmock_line);
-typedef void (* CMOCK_paso_2_Expected_CALLBACK)(int cmock_num_calls);
-void paso_2_Expected_AddCallback(CMOCK_paso_2_Expected_CALLBACK Callback);
-void paso_2_Expected_Stub(CMOCK_paso_2_Expected_CALLBACK Callback);
-#define paso_2_Expected_StubWithCallback paso_2_Expected_Stub
 
 #if defined(__GNUC__) && !defined(__ICC) && !defined(__TMS470__)
 #if __GNUC__ > 4 || (__GNUC__ == 4 && (__GNUC_MINOR__ > 6 || (__GNUC_MINOR__ == 6 && __GNUC_PATCHLEVEL__ > 0)))
