@@ -248,52 +248,6 @@ void test_ActivoUnaSecuenciaPaso_CCW(void){
 
 
 
-void test_ActivoUnaSecuenciaPaso_6(void){
-
-     int8_t cantPasos=1;
-
-     uint32_t tiempoActivacionBobina=2;
-
-     uint32_t contTiempo=2;
-
-     int i;
-
-
-
-
-
-      if (tiempoActivacionBobina==contTiempo) {
-
-           gpioWrite_CMockExpect(144, GPIO1, 1);
-
-       gpioWrite_CMockExpect(145, GPIO2, 1);
-
-       gpioWrite_CMockExpect(146, GPIO3, 1);
-
-       gpioWrite_CMockExpect(147, GPIO4, 0);
-
-
-
-          }
-
-      else {
-
-           contTiempo++;
-
-
-
-        }
-
-
-
-      secuenciaCW_Sindelay(cantPasos);
-
- }
-
-
-
-
-
 
 
 
@@ -310,6 +264,6 @@ void test_ActivoUnaSecuenciaPaso_6(void){
 
     ((void *)0)
 
-    ), (UNITY_UINT)(165), UNITY_DISPLAY_STYLE_INT);
+    ), (UNITY_UINT)(142), UNITY_DISPLAY_STYLE_INT);
 
     }

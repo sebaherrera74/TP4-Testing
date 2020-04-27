@@ -19,7 +19,6 @@ uint8_t GPIO4;
 void inicializacionMotor(void);
 void secuenciaCW(uint8_t velocidad,uint16_t cantPasos);
 void secuenciaCCW(uint8_t velocidad,uint16_t cantPasos);
-void secuenciaCW_Sindelay(uint16_t cantPasos);
 int cambioVelocidad(int velocidadSp);
 
 

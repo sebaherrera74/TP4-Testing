@@ -17,7 +17,6 @@ extern void test_ActivoUnaSecuenciaPaso(void);
 extern void test_ActivoUnaSecuenciaPaso_2(void);
 extern void test_ActivoUnaSecuenciaPaso_CW(void);
 extern void test_ActivoUnaSecuenciaPaso_CCW(void);
-extern void test_ActivoUnaSecuenciaPaso_6(void);
 extern void test_cambioVelocidad(void);
 
 
@@ -93,8 +92,7 @@ int main(void)
   run_test(test_ActivoUnaSecuenciaPaso_2, "test_ActivoUnaSecuenciaPaso_2", 53);
   run_test(test_ActivoUnaSecuenciaPaso_CW, "test_ActivoUnaSecuenciaPaso_CW", 87);
   run_test(test_ActivoUnaSecuenciaPaso_CCW, "test_ActivoUnaSecuenciaPaso_CCW", 113);
-  run_test(test_ActivoUnaSecuenciaPaso_6, "test_ActivoUnaSecuenciaPaso_6", 136);
-  run_test(test_cambioVelocidad, "test_cambioVelocidad", 161);
+  run_test(test_cambioVelocidad, "test_cambioVelocidad", 138);
 
   CMock_Guts_MemFreeFinal();
   return UnityEnd();

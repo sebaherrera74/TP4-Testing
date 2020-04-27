@@ -132,29 +132,6 @@ void test_ActivoUnaSecuenciaPaso_CCW(void){  //giro la inversa y verifico
       secuenciaCCW(velocidad,cantPasos);
 }
 
-// este falta 
-void test_ActivoUnaSecuenciaPaso_6(void){
-     int8_t cantPasos=1;                  
-     uint32_t tiempoActivacionBobina=2;
-     uint32_t contTiempo=2;
-     int i;
-    
-     
-      if (tiempoActivacionBobina==contTiempo) {
-           gpioWrite_Expect(GPIO1,1);
-	      gpioWrite_Expect(GPIO2,1);
-	      gpioWrite_Expect(GPIO3,1);
-	      gpioWrite_Expect(GPIO4,0);
-                   
-          }    
-      else {
-           contTiempo++;
-           
-        }     
-      
-      secuenciaCW_Sindelay(cantPasos);
- } 
-
 
 //5-Test de cambio de velocidad de acuerdo a una velocidad dada
 

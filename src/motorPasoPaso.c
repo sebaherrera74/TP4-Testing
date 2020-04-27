@@ -67,20 +67,6 @@ void secuenciaCCW(uint8_t velocidad,uint16_t cantPasos){
 	 }
 }
 
-void secuenciaCW_Sindelay(uint16_t cantPasos){
-    uint8_t aux=0;
-    uint16_t i;
-
-    for (i=0;i<cantPasos;i++){
-
-   	    aux=(i+4)%4;
-		gpioWrite(GPIO1,secuenciaPasos[aux][0]);
-		gpioWrite(GPIO2,secuenciaPasos[aux][1]);
-		gpioWrite(GPIO3,secuenciaPasos[aux][2]);
-		gpioWrite(GPIO4,secuenciaPasos[aux][3]);
-	    
-	}
-}
 
 int cambioVelocidad(int velocidadSp){
 	
